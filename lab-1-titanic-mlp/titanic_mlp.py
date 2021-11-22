@@ -8,6 +8,8 @@ TEST_DATA_URL = "https://storage.googleapis.com/tf-datasets/titanic/eval.csv"
 BATCH_SIZE = 30
 TRAINING_EPOCHS = 20
 SHUFFLE_TIMES = 500
+LABEL_COLUMN = 'survived'
+LABELS = [0, 1]
 
 # Get dataset files
 train_file_path = tf.keras.utils.get_file("train.csv", TRAIN_DATA_URL)
@@ -15,9 +17,6 @@ test_file_path = tf.keras.utils.get_file("eval.csv", TEST_DATA_URL)
 
 # Make numpy values easier to read.
 np.set_printoptions(precision=3, suppress=True)
-
-LABEL_COLUMN = 'survived'
-LABELS = [0, 1]
 
 def get_dataset(file_path):
   dataset = tf.data.experimental.make_csv_dataset(
@@ -85,6 +84,7 @@ model = tf.keras.Sequential([
   preprocessing_layer,
   tf.keras.layers.Dense(128, activation='relu'),
   tf.keras.layers.Dense(128, activation='relu'),
+  tf.keras.layers.Dense(128, activation='tanh'),
   tf.keras.layers.Dense(1, activation='sigmoid'),
 ])
 
@@ -103,3 +103,6 @@ model.fit(train_data, epochs=TRAINING_EPOCHS)
 #Evaluating
 test_loss, test_accuracy = model.evaluate(test_data)
 print('\n\nTest Loss {}, Test Accuracy {}'.format(test_loss, test_accuracy))
+
+
+# перенавчання, оцінка результату
